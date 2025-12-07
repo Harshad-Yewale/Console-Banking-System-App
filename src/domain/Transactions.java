@@ -8,10 +8,10 @@ public class Transactions {
     private Type transactionType;
     private String accountNumber;
     private Double amount;
-    private LocalDateTime timeStamp;
+    private String timeStamp;
     private String note;
 
-    public Transactions(Type transactionType, String transactionId, String accountNumber, Double amount, LocalDateTime timeStamp, String note) {
+    public Transactions(Type transactionType, String transactionId, String accountNumber, Double amount, String timeStamp, String note) {
         this.transactionType = transactionType;
         this.transactionId = transactionId;
         this.accountNumber = accountNumber;
@@ -60,11 +60,11 @@ public class Transactions {
         this.note = note;
     }
 
-    public LocalDateTime getTimeStamp() {
+    public String  getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(LocalDateTime timeStamp) {
+    public void setTimeStamp(String timeStamp) {
         this.timeStamp = timeStamp;
     }
 }

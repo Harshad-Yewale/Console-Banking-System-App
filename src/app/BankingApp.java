@@ -21,7 +21,7 @@ public class BankingApp {
         while(isRunning) {
 
             System.out.println("""
-                    Plz Select any 1 Option from the following:
+                    \nPlz Select any 1 Option from the following:
                     1) Open Account
                     2) Deposit
                     3) Withdraw
@@ -50,7 +50,6 @@ public class BankingApp {
                     break;
                 case "5":
                     listStatements(sc,AccountService);
-                    System.out.println("Account Statements!!");
                     break;
                 case "6":
                     listAccount(sc,AccountService);

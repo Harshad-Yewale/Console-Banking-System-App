@@ -10,6 +10,7 @@ import repository.customerRepository;
 import repository.transactionRepository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,7 +18,9 @@ public class BankServiceImpl implements BankService {
 
 
     AccountRepository ac=new AccountRepository();
+    customerRepository cs=new customerRepository();
     transactionRepository tr= new transactionRepository();
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
     @Override
     public String createAccount(String name,String email,String accountType){
@@ -27,6 +30,7 @@ public class BankServiceImpl implements BankService {
         Customer customer=new Customer(customerId,name,email,accountNumber);
         Account account=new Account(accountNumber,customerId,(double)0,accountType);
         ac.save(account);
+        cs.save(customer);
         return accountNumber;
     }
     private String getString() {
@@ -44,7 +48,7 @@ public class BankServiceImpl implements BankService {
         try {
             Account acc = ac.findById(customerId).orElseThrow(() -> new RuntimeException("account not found"));
             acc.setBalance(acc.getBalance() + amount);
-            Transactions transaction = new Transactions(Type.DEPOSIT, UUID.randomUUID().toString(), acc.getAccountNumber(), amount, LocalDateTime.now(), note);
+            Transactions transaction = new Transactions(Type.DEPOSIT, UUID.randomUUID().toString(), acc.getAccountNumber(), amount, LocalDateTime.now().format(formatter), note);
             tr.add(transaction);
             return "Amount deposited Successfully";
         }
@@ -62,7 +66,7 @@ public class BankServiceImpl implements BankService {
                 return "inSufficient Balance";
             }
             acc.setBalance(acc.getBalance() - amount);
-            Transactions transaction = new Transactions(Type.WITHDRAW, UUID.randomUUID().toString(), acc.getAccountNumber(), amount, LocalDateTime.now(), note);
+            Transactions transaction = new Transactions(Type.WITHDRAW, UUID.randomUUID().toString(), acc.getAccountNumber(), amount,LocalDateTime.now().format(formatter), note);
             tr.add(transaction);
             return "Amount Withdrawn Successfully";
         } catch (RuntimeException e) {
@@ -80,12 +84,12 @@ public class BankServiceImpl implements BankService {
             Account acc2=ac.findById(receiver).orElseThrow(()->new RuntimeException());
             //update senders account
             acc.setBalance(acc.getBalance()-amount);
-            Transactions transaction=new Transactions(Type.TRANSFER_OUT,UUID.randomUUID().toString(),acc.getAccountNumber(),amount,LocalDateTime.now(),note);
+            Transactions transaction=new Transactions(Type.TRANSFER_OUT,UUID.randomUUID().toString(),acc.getAccountNumber(),amount,LocalDateTime.now().format(formatter),note);
             tr.add(transaction);
 
             //update receivers account
             acc2.setBalance(acc2.getBalance()+amount);
-            Transactions transaction2=new Transactions(Type.TRANSFER_IN,UUID.randomUUID().toString(),acc.getAccountNumber(),amount,LocalDateTime.now(),note);
+            Transactions transaction2=new Transactions(Type.TRANSFER_IN,UUID.randomUUID().toString(),acc2.getAccountNumber(),amount,LocalDateTime.now().format(formatter),note);
             tr.add(transaction2);
             return "Amount transferred successfully";
         }
