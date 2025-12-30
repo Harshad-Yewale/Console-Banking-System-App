@@ -2,7 +2,7 @@
 
 <h2>📌 About this Project</h2>
 <p>
-This is my <strong>first Java project</strong>, created to practice and understand essential 
+This <strong>Java project</strong>is created to practice and understand essential 
 <strong>Core Java</strong> concepts such as OOP, layered architecture, and the <strong>Collections Framework</strong>. 
 This project is built completely from scratch as a beginner-to-intermediate Java learner trying to improve logical thinking and project structuring.
 </p>
